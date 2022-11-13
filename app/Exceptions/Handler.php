@@ -52,13 +52,13 @@ class Handler extends ExceptionHandler
     }
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof NotFoundHttpException) {
+        /**if ($exception instanceof NotFoundHttpException) {
             return response()->json([
                 'status'  => Response::HTTP_NOT_FOUND,
                 'message' => 'Not Found',
                 
             ],Response::HTTP_NOT_FOUND);
-        }
+        }**/
         if ($exception instanceof RouteNotFoundException) {
             return response()->json([
                 'status'  => Response::HTTP_UNAUTHORIZED,
