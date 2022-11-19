@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Metode;
 use App\Models\Klasifikasi;
 use App\Models\Unsur;
+use App\Models\Penyelenggara;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('v1/roles', App\Http\Controllers\Api\RoleController::class);
     Route::resource('v1/permission', App\Http\Controllers\Api\PermissionController::class);
     Route::resource('v1/kegiatan', App\Http\Controllers\Api\KegiatanController::class);
+    Route::get('v1/kegiatan/{kode}/peserta', [App\Http\Controllers\Api\KegiatanController::class,'peserta']);
+    Route::post('v1/kegiatan/{kode}/peserta', [App\Http\Controllers\Api\KegiatanController::class,'peserta_add']);
     Route::post('v1/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
 });
 Route::get('v1/unsur', [App\Http\Controllers\Api\UnsurController::class,'unsur']);
@@ -39,6 +42,13 @@ Route::get('v1/metode', function () {
             'status'=>200,
             'message'=>'OK',
             'data' => $data], 200); 
+});
+Route::get('v1/penyelenggara', function () {
+    $data = Penyelenggara::select('id as kode','penyelenggara')->get(); 
+    return response()->json([
+        'status'=>200,
+        'message'=>'OK',
+        'data' => $data], 200); 
 });
 Route::get('v1/cache', function () {
 	Artisan::call('cache:forget spatie.permission.cache');

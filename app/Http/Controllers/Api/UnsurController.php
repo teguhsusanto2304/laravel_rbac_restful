@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Unsur;
 use App\Models\klasifikasi;
+use App\Models\Penyelenggara;
 
 class UnsurController extends Controller
 {
@@ -133,6 +134,47 @@ class UnsurController extends Controller
     public function metode()
     {
         $data = Klasifikasi::select('id_bidang_profesi as kode','subklasifikasi as klasifikasi')->where('parent',0)->get();  
+        return response()->json([
+            'status'=>200,
+            'message'=>'OK',
+            'data' => $data], 200); 
+    }
+    /**
+     * @OA\Get(
+     *      path="/v1/penyelenggara",
+     *      operationId="get penyelenggara list",
+     *      tags={"Refrensi"},
+
+     *      summary="Get list of active tests",
+     *      description="Returns list of active tests",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     * @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *  )
+     */
+    public function penyelenggara()
+    {
+        $data = Penyelenggara::select('id as kode','penyelenggara')->get();  
         return response()->json([
             'status'=>200,
             'message'=>'OK',

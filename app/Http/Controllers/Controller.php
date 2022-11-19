@@ -25,6 +25,10 @@ use Illuminate\Routing\Controller as BaseController;
 *         description="PKB API host",
 *         url="http://dev.siki.pu.go.id/pkb/api/api/"
 *     ),
+*     @OA\Server(
+*         description="Local API host",
+*         url="http://localhost:8000/api/"
+*     ),
 *     @OA\ExternalDocumentation(
 *         description="Tentang Aplikasi PKB",
 *         url="http://lpjk.pu.go.id/pkb"

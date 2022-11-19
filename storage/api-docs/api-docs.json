@@ -17,6 +17,10 @@
         {
             "url": "http://dev.siki.pu.go.id/pkb/api/api/",
             "description": "PKB API host"
+        },
+        {
+            "url": "http://localhost:8000/api/",
+            "description": "Local API host"
         }
     ],
     "paths": {
@@ -108,7 +112,7 @@
                 "tags": [
                     "Kegiatan"
                 ],
-                "summary": "Get the details of an authenticated user",
+                "summary": "mendapatkan data kegiatan",
                 "description": "",
                 "operationId": "getAuthUser",
                 "responses": {
@@ -126,6 +130,202 @@
                     },
                     "400": {
                         "description": "Error xXx"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Kegiatan"
+                ],
+                "summary": "membuat data kegiatan baru",
+                "operationId": "kegiatan",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nama_kegiatan": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "nama kegiatan"
+                                    },
+                                    "lokasi_kegiatan": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "www.penyelenggara.com"
+                                    },
+                                    "unsur": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "U001"
+                                    },
+                                    "klasifikasi": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "AS"
+                                    },
+                                    "metode": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "M01"
+                                    },
+                                    "kode_penyelenggara": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "2761"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/kegiatan/{kode}/peserta": {
+            "get": {
+                "tags": [
+                    "Kegiatan"
+                ],
+                "summary": "mendapatkan data peserta kegiatan",
+                "description": "",
+                "operationId": "getPeserta",
+                "parameters": [
+                    {
+                        "name": "kode",
+                        "in": "path",
+                        "description": "kode kegiatan",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "headers": {
+                            "X-Expires-After": {
+                                "description": "date in UTC when token expires",
+                                "schema": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error xXx"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Kegiatan"
+                ],
+                "summary": "membuat data peserta kegiatan baru",
+                "operationId": "pesertaKegiatan",
+                "parameters": [
+                    {
+                        "name": "kode",
+                        "in": "path",
+                        "description": "kode kegiatan",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nik",
+                                    "nama_peserta"
+                                ],
+                                "properties": {
+                                    "nik": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "XXXXXXXXXXXXXXXX"
+                                    },
+                                    "nama_peserta": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "nama peserta"
+                                    },
+                                    "unsur": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "U001"
+                                    },
+                                    "metode": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "M01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 },
                 "security": [
@@ -224,6 +424,36 @@
                     }
                 }
             }
+        },
+        "/v1/penyelenggara": {
+            "get": {
+                "tags": [
+                    "Refrensi"
+                ],
+                "summary": "Get list of active tests",
+                "description": "Returns list of active tests",
+                "operationId": "get penyelenggara list",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -251,9 +481,9 @@
                 "scheme": "https",
                 "flows": {
                     "password": {
-                        "authorizationUrl": "http://crud_pkb_restful.test/oauth/authorize",
-                        "tokenUrl": "http://crud_pkb_restful.test/oauth/token",
-                        "refreshUrl": "http://crud_pkb_restful.test/token/refresh",
+                        "authorizationUrl": "http://localhost:8000/oauth/authorize",
+                        "tokenUrl": "http://localhost:8000/oauth/token",
+                        "refreshUrl": "http://localhost:8000/token/refresh",
                         "scopes": []
                     }
                 }
